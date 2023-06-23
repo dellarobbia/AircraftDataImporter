@@ -1,4 +1,4 @@
-import pymysql, json, requests, time
+import pymysql, json, requests, time, datetime
 
 aircraftJsonUrl = 'http://192.168.0.230:8080/data/aircraft.json'
 
@@ -7,6 +7,8 @@ while(True):
     connection = pymysql.connect(host = 'localhost', user = 'AircraftDataImporter', passwd = 'dataImporter', db = 'aircraftdb')
 
     cursor = connection.cursor()
+
+    now = datetime.datetime.now()
 
     for item in aircraftJsonData['aircraft']:
         timestamp = aircraftJsonData['now']
@@ -21,6 +23,6 @@ while(True):
     connection.commit()
     connection.close()
 
-    print("Wrote to db")
+    print("Wrote to db ", now.strftime("%m/%d/%Y %H:%M:%S"))
 
     time.sleep(10)
